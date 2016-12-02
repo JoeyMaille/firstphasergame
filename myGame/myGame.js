@@ -39,7 +39,7 @@ create: function(){
 		
 		ground.body.immovable = true;
 		
-		var ledge = this.platforms.create(169, 100, 'ground' )
+		var ledge = this.platforms.create(150, 400, 'ground' )
 		
 		ledge.body.immovable = true;
 		
@@ -70,7 +70,7 @@ create: function(){
 		
 		for (var i = 0; i < 12; i++) {
 			
-			var star = this.stars.create(1 * 70, 0, 'star');
+			var star = this.stars.create(i * 70, 0, 'star');
 			
 			star.body.gravity.y = 300;
 			
@@ -85,7 +85,7 @@ create: function(){
 			fill: '#000'
 		});
 
-
+		this.score = 0;
 
 },
 
@@ -104,22 +104,22 @@ update: function() {
 		}
 		else{
 			this.player.animations.stop();
-			//this.player.frame = ;
+			this.player.frame = 4;
 		}
 		if (this.cursors.up.isDown && this.player.body.touching.down) {
 			this.player.body.velocity.y = -350;
 		}
 		game.physics.arcade.collide(this.stars, this.platforms);
 		
-		game.physics.collide.overlap(this.player, this.stars, this.collectStar, null, this);
+		game.physics.arcade.overlap(this.player, this.stars, this.collectStar, null, this);
 		//game.debug.body(this.player);
 },
 
 collectStar: function(player, star) {
 	
 	star.kill();
-	
-	//scoreText.text = "Score:" + this.score;
+	this.score++;
+	this.scoreText.text = "Score:" + this.score;
 }
 
 }
