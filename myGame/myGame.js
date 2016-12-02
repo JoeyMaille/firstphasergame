@@ -63,6 +63,27 @@ create: function(){
 		
 		this.cursors = game.input.keyboard.createCursorKeys();
 		
+		
+		this.stars = game.add.group();
+		
+		this.stars.enableBody = true;
+		
+		for (var i = 0; i < 12; i++) {
+			
+			var star = this.stars.create(1 * 70, 0, 'star');
+			
+			star.body.gravity.y = 300;
+			
+			star.body.bounce.y - 0.7 + Math.random() * 0.2;
+		}
+		
+		
+		this.scoreText = game.add.text(16, 16, 'score: 0', {
+			
+			fontSize: '32px',
+			
+			fill: '#000'
+		});
 
 
 
@@ -79,12 +100,27 @@ update: function() {
 		}
 		
 		else if (this.cursors.right.isDown){
-				 this.player.body.velocity.x = 150
+				 this.player.body.velocity.x = 150;
 		}
-
-	//	game.debug.body(this.player);
+		else{
+			this.player.animations.stop();
+			//this.player.frame = ;
+		}
+		if (this.cursors.up.isDown && this.player.body.touching.down) {
+			this.player.body.velocity.y = -350;
+		}
+		game.physics.arcade.collide(this.stars, this.platforms);
+		
+		game.physics.collide.overlap(this.player, this.stars, this.collectStar, null, this);
+		//game.debug.body(this.player);
 },
 
+collectStar: function(player, star) {
+	
+	star.kill();
+	
+	//scoreText.text = "Score:" + this.score;
+}
 
 }
 game.state.add('main', game_state.main);
